@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Flasker{% endblock %}
+
+{% block style %}
+<link href="{{ url_for('auth.static', filename='main.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {{ form.csrf_token }}
+    <p class="header">Update your profile</p>
+    <div class="">
+        {{ form.username.label(class_="") }}
+        {{ form.username(class_="", placeholder="Your unique username") }}
+        {% for error in form.username.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        {{ form.email.label(class_="") }}
+        {{ form.email(class_="", placeholder="Your e-mail address") }}
+        {% for error in form.email.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        <button class="" type="submit">Update</button>
+    </div>
+    <div class="">
+        <a class="" href="{{ url_for('auth.account_change_password') }}">Change password</a><br/>
+        <a class="" href="{{ url_for('auth.account_delete') }}">Delete account</a><br/>
+        <a class="" href="{{ url_for('auth.account') }}">Go to profile</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

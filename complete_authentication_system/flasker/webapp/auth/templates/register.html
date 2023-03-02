@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Flasker{% endblock %}
+
+{% block style %}
+<link href="{{ url_for('auth.static', filename='main.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {{ form.csrf_token }}
+    <p class="header">Register yourself!</p>
+    <div class="">
+        {{ form.username.label(class_="") }}
+        {{ form.username(class_="", placeholder="Your unique username") }}<br/>
+        {% for error in form.username.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        {{ form.email.label(class_="") }}
+        {{ form.email(class_="", placeholder="Your e-mail address") }}<br/>
+        {% for error in form.email.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        {{ form.password.label(class_="") }}
+        {{ form.password(class_="", placeholder="Your secret password") }}<br/>
+        {% for error in form.password.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        {{ form.confirm_password.label(class_="") }}
+        {{ form.confirm_password(class_="", placeholder="Repete your password") }}<br/>
+        {% for error in form.confirm_password.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        <button class="" type="submit">Register</button>
+    </div>
+    <div class="">
+        <span>Do you have an account?</span>
+        <a href="{{ url_for('auth.login') }}" role="button" class="">Login</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

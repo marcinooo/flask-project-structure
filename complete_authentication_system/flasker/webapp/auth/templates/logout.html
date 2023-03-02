@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Flasker{% endblock %}
+
+{% block style %}
+<link href="{{ url_for('auth.static', filename='main.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<p class="header">You are now logged out!</p>
+<p class="">We hope you will come back to us soon!</p>
+<p class="">
+    Do you want to log in again?
+    <a href="{{ url_for('auth.login') }}" role="button" class="">Login</a>
+</p>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
