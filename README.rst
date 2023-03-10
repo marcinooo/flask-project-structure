@@ -1,6 +1,6 @@
-======
-Keepno
-======
+=======================
+Flask Project Templates
+=======================
 
 :Authors: marcinooo
 :Tags: Python, Flask, web app, project structure
