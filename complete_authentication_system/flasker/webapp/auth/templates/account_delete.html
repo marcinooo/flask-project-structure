@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Flasker{% endblock %}
+
+{% block style %}
+<link href="{{ url_for('auth.static', filename='main.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {{ form.csrf_token }}
+    <p class="header">Delete your account</p>
+    <div class="">
+        {{ form.slug.label(class_="") }}
+        {{ form.slug(class_="", placeholder="Type \"delete\"") }}
+        {% for error in form.slug.errors %}
+        <span class="form-error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="">
+        <button class="" type="submit">Delete</button>
+    </div>
+    <div class="">
+        <a class="text-muted" href="{{ url_for('auth.account') }}">Go to profile</span></a>
+    </div>
+</form>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

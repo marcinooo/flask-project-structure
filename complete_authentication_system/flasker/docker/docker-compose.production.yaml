@@ -1,0 +1,101 @@
+version: '3.9'
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ../scripts/default.conf:/etc/nginx/conf.d/default.conf
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - flasker
+    depends_on:
+      flask:
+        condition: service_started
+
+  flask:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.production
+    container_name: flask
+    command: >
+      bash -c "python manage.py create_db
+      && python manage.py create_user admin admin@fake-mail.com Abcd1234
+      && gunicorn --bind 0.0.0.0:5000 --workers 4 'webapp:create_app()'"
+#    ports:
+#      - 5000:5000
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+      - FLASK_APP=webapp:create_app()
+    volumes:
+      - ../:/var/wwww
+    networks:
+      - flasker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      worker:
+        condition: service_started
+
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=flasker
+      - POSTGRES_PASSWORD=flasker
+      - POSTGRES_DB=flasker
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U flasker" ]  # TODO: change it
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - flasker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - flasker
+    volumes:
+      - "redis:/data"
+
+  worker:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.production
+    environment:
+      - FLASK_ENV=development
+    container_name: worker
+    command: celery -A webapp.celery worker -B -l info
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+    networks:
+      - flasker
+    volumes:
+      - ../:/var/wwww
+
+volumes:
+  postgres_data:
+  redis:
+
+networks:
+  flasker:

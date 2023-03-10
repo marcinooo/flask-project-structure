@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Flasker{% endblock %}
+
+{% block style %}
+<link href="{{ url_for('auth.static', filename='main.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<p class="header">You have not confirmed your account yet.</p>
+<p>You should have received an email with confirmation link.</p>
+<p>Need another confirmation email?
+    <a href="{{ url_for('auth.resend_confirmation') }}" role="button">Resend</a>
+</p>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Flasker{% endblock %}
+
+{% block style %}
+<link href="{{ url_for('auth.static', filename='main.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <div class="">
+        <p class="header">Your profile</p>
+    </div>
+    <div class="">
+        <p>{{ current_user.username }}</p>
+    </div>
+    <div class="">
+        <p>{{ current_user.email }}</p>
+    </div>
+    <div class="">
+        <span>You joined to as {{ current_user.created.strftime('%d-%m-%Y') }}</span>
+    </div>
+    <div class="">
+        <a class="" href="{{ url_for('auth.account_update') }}">Update</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,15 @@
+gunicorn
+Flask
+Flask-SQLAlchemy
+psycopg2-binary
+click
+Flask-Migrate
+Flask-Session
+redis
+celery
+python-dotenv
+flask-login
+flask-bcrypt
+Flask-WTF
+email_validator
+PyJWT
