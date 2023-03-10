@@ -7,8 +7,7 @@ services:
       dockerfile: ./docker/Dockerfile.develop
     container_name: flask
     command: >
-      bash -c "./scripts/wait_for_postgres.sh
-      && python manage.py create_db
+      bash -c "python manage.py create_db
       && python manage.py create_user admin admin@fake-mail.com Abcd1234
       && flask run --host=0.0.0.0"
     ports:
@@ -22,19 +21,25 @@ services:
     networks:
       - flasker
     depends_on:
-      - postgres
-      - redis
-      - worker
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      worker:
+        condition: service_started
 
   postgres:
     image: postgres:13-alpine
     container_name: postgres
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_USER=flasker
       - POSTGRES_PASSWORD=flasker
       - POSTGRES_DB=flasker
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U flasker" ]  # TODO: change it
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - flasker
     volumes:
@@ -43,8 +48,11 @@ services:
   redis:
     image: "redis:alpine"
     container_name: redis
-    ports:
-      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - flasker
     volumes:
@@ -56,9 +64,13 @@ services:
       dockerfile: ./docker/Dockerfile.develop
     environment:
       - FLASK_ENV=development
+    container_name: worker
     command: celery -A webapp.celery worker -B -l info
     depends_on:
-      - "redis"
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
     networks:

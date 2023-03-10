@@ -189,10 +189,10 @@ class AccountDelete(View):
     def dispatch_request(self):
         form = DeleteAccountForm()
         if form.validate_on_submit():
-            current_user.delete_from_db()
             user_label = current_user
-            current_app.logger.info('%s account has been deleted.', user_label)
+            current_user.delete_from_db()
             logout_user()
+            current_app.logger.info('%s account has been deleted.', user_label)
             flash('Your account has been deleted successfully.', 'success')
             return redirect(url_for('auth.login'))
         return render_template(self.template, form=form)
