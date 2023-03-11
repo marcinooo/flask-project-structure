@@ -32,10 +32,6 @@ services:
     networks:
       - flasker
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
       worker:
         condition: service_started
 
@@ -45,11 +41,6 @@ services:
       - FLASK_ENV=development
     container_name: worker
     command: celery -A webapp.celery worker -B -l info
-    depends_on:
-      redis:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
     networks:
