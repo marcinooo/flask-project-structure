@@ -19,4 +19,5 @@ phases:
       - docker-compose --file=complete_authentication_system/flasker/docker/docker-compose.production.aws.yaml push
 artifacts:
   files:
-    - 'complete_authentication_system/flasker/scripts/Dockerrun.aws.json'
+    - 'Dockerrun.aws.json'
+#    - 'complete_authentication_system/flasker/scripts/Dockerrun.aws.json'
