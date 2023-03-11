@@ -13,8 +13,7 @@ services:
     networks:
       - flasker
     depends_on:
-      flask:
-        condition: service_started
+      - flask
 
   flask:
     image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/flasker
@@ -32,8 +31,7 @@ services:
     networks:
       - flasker
     depends_on:
-      worker:
-        condition: service_started
+      - worker
 
   worker:
     image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/flasker
