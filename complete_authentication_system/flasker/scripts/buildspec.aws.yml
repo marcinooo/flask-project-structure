@@ -11,12 +11,12 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker-compose --file=../docker/docker-compose.production.aws.yml build
+      - docker-compose --file=complete_authentication_system/flasker/docker/docker-compose.production.aws.yaml build
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker-compose --file=../docker/docker-compose.production.aws.yml push
+      - docker-compose --file=complete_authentication_system/flasker/docker/docker-compose.production.aws.yaml push
 artifacts:
   files:
     - 'complete_authentication_system/flasker/scripts/Dockerrun.aws.json'
