@@ -3,14 +3,14 @@
   "containerDefinitions": [
     {
       "name": "worker",
-      "image": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/flasker",
+      "image": "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/flasker",
       "hostname": "worker",
       "essential": true,
       "memory": 1024
     },
     {
       "name": "flask",
-      "image": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/flasker",
+      "image": "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/flasker",
       "hostname": "flask",
       "essential": true,
       "memory": 512
