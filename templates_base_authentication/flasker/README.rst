@@ -24,8 +24,8 @@ To Do
 Few actions still need to be added:
 
 - captcha
-
-
+- add mailing system
+- **change secret variables in .env.develop, .env.production, .env.testing files**
 
 Usage
 =====
