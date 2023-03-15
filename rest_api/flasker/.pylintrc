@@ -1,0 +1,7 @@
+[FORMAT]
+max-line-length=120
+
+disable=cyclic-import,too-few-public-methods
+
+[MASTER]
+extension-pkg-allow-list=pydantic

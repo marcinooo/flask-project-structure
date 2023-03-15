@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+flask-restful
+flask_bcrypt
+Flask-Pydantic
+Flask-Migrate
+flask-jwt-extended
+click
+psycopg2-binary
+redis
+celery
+python-dotenv
+PyJWT
+pydantic
